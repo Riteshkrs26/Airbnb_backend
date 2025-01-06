@@ -1,40 +1,28 @@
-import express from 'express';
-import { 
-    createTour, 
-    deleteTour, 
-    getAllTour, 
-    getFeaturedTour, 
-    getSingleTour, 
-    getTourBySearch, 
-    getTourCount, 
-    updateTour 
-} from '../controllers/tourController.js';
-import { verifyAdmin } from '../utils/verifyToken.js';
 
-const router = express.Router();
+import express from 'express'
+import { createTour, deleteTour, getAllTour, getFeaturedTour, getSingleTour, getTourBySearch, getTourCount, updateTour } from '../controllers/tourController.js'
+import { verifyAdmin } from '../utils/verifyToken.js'
 
-// Get all tours
-router.get('/', getAllTour);
+const router = express.Router()
 
-// Get single tour by ID
-router.get('/:id', getSingleTour);
+// get single tour
+router.get('/:id',getSingleTour)
+// get all tour
+router.get('/',getAllTour)
+// get tour by search
+router.get('/search/getTourBySearch',getTourBySearch)
 
-// Get tours by search criteria
-router.get('/search/getTourBySearch', getTourBySearch);
+//as of now the following routes are not utilized in the frontend
+//these can be leveraged in admin dashboard
+// create new tour
+router.post('/',verifyAdmin,createTour)
+// update  tour
+router.put('/:id',verifyAdmin,updateTour)
+// delete tour
+router.delete('/:id',verifyAdmin,deleteTour)
 
-// Get featured tours
-router.get('/search/getFeaturedTours', getFeaturedTour);
 
-// Get tour count
-router.get('/search/getTourCount', getTourCount);
+router.get('/search/getFeaturedTours',getFeaturedTour)
+router.get('/search/getTourCount',getTourCount)
 
-// Create new tour (admin only)
-router.post('/', verifyAdmin, createTour);
-
-// Update tour by ID (admin only)
-router.put('/:id', verifyAdmin, updateTour);
-
-// Delete tour by ID (admin only)
-router.delete('/:id', verifyAdmin, deleteTour);
-
-export default router;
+export default router
